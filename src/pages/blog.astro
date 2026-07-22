@@ -1,0 +1,27 @@
+---
+import { getBlogPosts } from '../lib/contentful';
+
+const posts = await getBlogPosts();
+---
+
+<html>
+  <head>
+    <title>Blog — Kronor & Beyond</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+  </head>
+  <body>
+    <h1>Kronor & Beyond</h1>
+    <p>Personal finance for expats in Sweden</p>
+    
+    <h2>Latest Posts</h2>
+    <ul>
+      {posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.slug}`}>{post.title}</a>
+          <p>{post.quickAnswer}</p>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>
