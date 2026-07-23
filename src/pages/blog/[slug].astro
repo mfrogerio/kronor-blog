@@ -1,6 +1,7 @@
 ---
 import { getBlogPost } from '../../lib/contentful';
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import richTextRenderer from '@contentful/rich-text-html-renderer';
+const { documentToHtmlString } = richTextRenderer;
 
 export const prerender = false;
 
