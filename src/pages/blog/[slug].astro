@@ -2,40 +2,59 @@
 import { getBlogPost } from '../../lib/contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 
-const { slug } = Astro.params;
-const post = await getBlogPost(slug as string);
+export const prerender = false;
 
-if (!post) {
-  return Astro.redirect('/404');
+const { slug } = Astro.params;
+
+let post;
+let error;
+
+try {
+  post = await getBlogPost(slug as string);
+  if (!post) {
+    return Astro.redirect('/404');
+  }
+} catch (e) {
+  error = e;
 }
 
-const bodyHtml = post.content ? documentToHtmlString(post.content) : '';
+const bodyHtml = post?.content ? documentToHtmlString(post.content) : '';
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{post.title} — Kronor & Beyond</title>
-    <meta name="description" content={post.quickAnswer} />
+    <title>{post?.title || 'Post'} — Kronor & Beyond</title>
   </head>
   <body>
     <a href="/blog">← Back to all posts</a>
 
-    <h1>{post.title}</h1>
-
-    {post.quickAnswer && (
-      <p><strong>Quick answer:</strong> {post.quickAnswer}</p>
+    {error && (
+      <div style="color: red;">
+        <h2>Error loading post</h2>
+        <p>{error.message}</p>
+      </div>
     )}
 
-    <article set:html={bodyHtml} />
+    {post && (
+      <>
+        <h1>{post.title}</h1>
 
-    {post.featuredAffiliate && post.subId && (
-      <p>
-        <a href={`/go/${post.featuredAffiliate.toLowerCase()}?subid=${post.subId}`}>
-          Check {post.featuredAffiliate} →
-        </a>
-      </p>
+        {post.quickAnswer && (
+          <p><strong>Quick answer:</strong> {post.quickAnswer}</p>
+        )}
+
+        <article set:html={bodyHtml} />
+
+        {post.featuredAffiliate && post.subId && (
+          <p>
+            <a href={`/go/${post.featuredAffiliate.toLowerCase()}?subid=${post.subId}`}>
+              Check {post.featuredAffiliate} →
+            </a>
+          </p>
+        )}
+      </>
     )}
   </body>
 </html>
