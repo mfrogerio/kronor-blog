@@ -1,7 +1,5 @@
 ---
 import { getBlogPost } from '../../lib/contentful';
-import richTextRenderer from '@contentful/rich-text-html-renderer';
-const { documentToHtmlString } = richTextRenderer;
 
 export const prerender = false;
 
@@ -18,8 +16,6 @@ try {
 } catch (e) {
   error = e;
 }
-
-const bodyHtml = post?.content ? documentToHtmlString(post.content) : '';
 ---
 
 <html lang="en">
@@ -34,7 +30,7 @@ const bodyHtml = post?.content ? documentToHtmlString(post.content) : '';
     {error && (
       <div style="color: red;">
         <h2>Error loading post</h2>
-        <p>{error.message}</p>
+        <p>{String(error)}</p>
       </div>
     )}
 
@@ -46,7 +42,9 @@ const bodyHtml = post?.content ? documentToHtmlString(post.content) : '';
           <p><strong>Quick answer:</strong> {post.quickAnswer}</p>
         )}
 
-        <article set:html={bodyHtml} />
+        <div>
+          <p>[Post content - Rich text rendering coming soon]</p>
+        </div>
 
         {post.featuredAffiliate && post.subId && (
           <p>
