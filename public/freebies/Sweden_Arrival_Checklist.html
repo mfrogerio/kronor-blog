@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweden Arrival Checklist — Kronor & Beyond</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    width: 210mm;
+    height: 297mm;
+    background: #e8e4dc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .card {
+    width: 196mm;
+    height: 283mm;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: #1F4E79;
+    padding: 2mm 8mm;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 12pt;
+    font-weight: 700;
+    color: #F2C744;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .logo .com {
+    color: #F2C744;
+    font-size: 12pt;
+  }
+
+  .logo .heart {
+    color: #F2C744;
+    font-size: 9pt;
+    line-height: 1;
+  }
+
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.5pt;
+    color: #a8c4d8;
+    margin-top: 2mm;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 12mm 8mm 5mm;
+    flex-shrink: 0;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 31pt;
+    font-weight: 700;
+    color: #1A1D21;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 14pt;
+    color: #1F4E79;
+    margin-top: 1.5mm;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+
+  /* ── COLUMNS ── */
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    padding: 0 7mm 3mm;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5mm;
+  }
+
+  /* ── SECTION CARD ── */
+  .section {
+    background: #FAF9F6;
+    border-radius: 5mm;
+    padding: 3mm 3.5mm 2.5mm;
+    margin: 0 3.5mm 1mm 3.5mm;
+    border: 1pt solid #F2C744;
+    width: auto;
+  }
+
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #FAF9F6;
+    background: #1F4E79;
+    text-align: center;
+    letter-spacing: 0.03em;
+    padding: 2.5mm 4mm;
+    margin: 6mm auto 1.5mm auto;
+    border-radius: 4mm;
+    width: fit-content;
+  }
+
+  /* ── CHECKLIST ITEMS ── */
+  .items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8mm;
+  }
+
+  .items li {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5mm;
+    font-size: 8.5pt;
+    color: #1A1D21;
+    line-height: 1.35;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .checkbox {
+    width: 5.5mm;
+    height: 5.5mm;
+    min-width: 5.5mm;
+    border-radius: 50%;
+    border: 1.5px solid #F2C744;
+    background: white;
+    margin-top: 0.8mm;
+  }
+
+  /* ── BOTTOM BAR ── */
+  .bottom-bar {
+    background: #1F4E79;
+    padding: 2mm 8mm;
+    text-align: center;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .bottom-bar .url {
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #F2C744;
+  }
+
+  .bottom-bar .heart {
+    color: #F2C744;
+    font-size: 9pt;
+  }
+
+  .bottom-bar .sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    color: white;
+  }
+
+  @media print {
+    body {
+      background: none;
+      margin: 0;
+      padding: 0;
+    }
+    .card {
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="logo">
+      KRONOR &amp; BEYOND
+      <span class="heart">♥</span>
+      <span class="com">COM</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Sweden Arrival Checklist</h1>
+    <p>28 things to do in your first 90 days</p>
+  </div>
+
+  <!-- COLUMNS -->
+  <div class="columns">
+
+    <!-- LEFT COLUMN -->
+    <div class="column">
+
+      <div class="section-label">PRE-ARRIVAL — 2 weeks before</div>
+      <div class="section">
+        <ul class="items">
+          <li><span class="checkbox"></span>Open a multi-currency account to receive salary without losing money</li>
+          <li><span class="checkbox"></span>Get a travel eSIM for internet from the moment you land</li>
+          <li><span class="checkbox"></span>Research health insurance for the gap before Swedish coverage begins</li>
+          <li><span class="checkbox"></span>Book accommodation for your first week</li>
+          <li><span class="checkbox"></span>Gather key documents: passport, employment contract, rental agreement</li>
+        </ul>
+      </div>
+
+      <div class="section-label">WEEK 1 — Immediate priorities</div>
+      <div class="section">
+        <ul class="items">
+          <li><span class="checkbox"></span>Register with the migration authority and get your confirmation number</li>
+          <li><span class="checkbox"></span>Register your address with the tax office (folkbokföring)</li>
+          <li><span class="checkbox"></span>Apply for your personnummer (personal identity number)</li>
+          <li><span class="checkbox"></span>Get a Swedish SIM card</li>
+          <li><span class="checkbox"></span>Open a bank account</li>
+          <li><span class="checkbox"></span>Find temporary housing</li>
+          <li><span class="checkbox"></span>Join expat groups online</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="column">
+
+      <div class="section-label">WEEK 2–4 — While you wait</div>
+      <div class="section">
+        <ul class="items">
+          <li><span class="checkbox"></span>Follow up on your personnummer application</li>
+          <li><span class="checkbox"></span>Join the housing queue (bostadskö)</li>
+          <li><span class="checkbox"></span>Get BankID once personnummer arrives</li>
+          <li><span class="checkbox"></span>Set up mobile payments (Swish)</li>
+          <li><span class="checkbox"></span>Download your digital mailbox app for official letters (Kivra)</li>
+          <li><span class="checkbox"></span>Register for unemployment insurance (A-kassa)</li>
+          <li><span class="checkbox"></span>Join a union (facket) if employed</li>
+        </ul>
+      </div>
+
+      <div class="section-label">MONTH 2 — Settling in</div>
+      <div class="section">
+        <ul class="items">
+          <li><span class="checkbox"></span>Confirm your personnummer is approved</li>
+          <li><span class="checkbox"></span>Get home insurance (hemförsäkring — essential, not optional)</li>
+          <li><span class="checkbox"></span>Set up electricity and internet contracts</li>
+          <li><span class="checkbox"></span>Open a tax-efficient investment account (ISK)</li>
+          <li><span class="checkbox"></span>Research childcare options if relevant — waitlists are long</li>
+        </ul>
+      </div>
+
+      <div class="section-label">MONTH 3 — Building your life</div>
+      <div class="section">
+        <ul class="items">
+          <li><span class="checkbox"></span>Start Swedish language classes — SFI is free for residents</li>
+          <li><span class="checkbox"></span>Join a gym, club, or hobby group</li>
+          <li><span class="checkbox"></span>Review your salary setup with HR</li>
+          <li><span class="checkbox"></span>Set up automatic bill payments (autogiro)</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <span class="url">kronorandbeyond.com</span>
+    <span class="heart">♥</span>
+    <span class="sub">Personal finance for expats in Sweden</span>
+  </div>
+
+</div>
+</body>
+</html>

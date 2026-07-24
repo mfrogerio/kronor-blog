@@ -11,26 +11,55 @@ const AFFILIATE_LINKS: Record<string, string> = {
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params, url }) => {
+export const GET: APIRoute = async ({ params, url, request }) => {
   const { affiliate } = params;
   const subId = url.searchParams.get('subid') || 'direct';
+  const referrer = url.searchParams.get('ref') || request.headers.get('referer') || 'direct';
+  const pageUrl = url.searchParams.get('page') || referrer;
+  const userParam = url.searchParams.get('user') || null;
+  const sessionId = url.searchParams.get('session') || `session-${Date.now()}`;
+
+  // Extract device type and browser from User-Agent
+  const userAgent = request.headers.get('user-agent') || '';
+  const deviceType = userAgent.includes('Mobile') || userAgent.includes('iPhone') || userAgent.includes('Android') ? 'Mobile' : 'Desktop';
+  const browser = extractBrowser(userAgent);
+
+  // Get IP address (Vercel provides this)
+  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+
+  // Generate Click ID
+  const clickId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+  // Get the affiliate link
+  const redirectUrl = AFFILIATE_LINKS[affiliate as string];
+  if (!redirectUrl) {
+    return new Response('Affiliate not found', { status: 404 });
+  }
 
   // Log to Airtable
   try {
-    await fetch('https://api.airtable.com/v0/YOUR_BASE_ID/Clicks', {
+    await fetch(`https://api.airtable.com/v0/${process.meta.env.AIRTABLE_BASE_ID}/Clicks`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        'Authorization': `Bearer ${process.meta.env.AIRTABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         records: [
           {
             fields: {
-              affiliate,
-              subId,
-              timestamp: new Date().toISOString(),
-              referrer: url.searchParams.get('ref') || 'direct',
+              'Click ID': clickId,
+              'User': userParam,
+              'Session': sessionId,
+              'Page URL': pageUrl,
+              'Device Type': deviceType,
+              'Browser': browser,
+              'IP Address': ip,
+              'Timestamp': new Date().toISOString(),
+              'affiliate': affiliate,
+              'subId': subId,
+              'referrer': referrer,
+              'redirectUrl': redirectUrl,
             },
           },
         ],
@@ -40,15 +69,19 @@ export const GET: APIRoute = async ({ params, url }) => {
     console.log('Airtable log failed (non-critical):', error);
   }
 
-  // Get the affiliate link
-  const link = AFFILIATE_LINKS[affiliate as string];
-  if (!link) {
-    return new Response('Affiliate not found', { status: 404 });
-  }
-
   // Redirect
   return new Response(null, {
     status: 302,
-    headers: { Location: link },
+    headers: { Location: redirectUrl },
   });
 };
+
+// Helper function to extract browser from User-Agent
+function extractBrowser(userAgent: string): string {
+  if (userAgent.includes('Chrome')) return 'Chrome';
+  if (userAgent.includes('Safari')) return 'Safari';
+  if (userAgent.includes('Firefox')) return 'Firefox';
+  if (userAgent.includes('Edge')) return 'Edge';
+  if (userAgent.includes('Opera')) return 'Opera';
+  return 'Other';
+}
