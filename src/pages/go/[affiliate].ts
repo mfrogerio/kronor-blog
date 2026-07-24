@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { AIRTABLE_BASE_ID, AIRTABLE_API_KEY } from '../../env';
 
 const AFFILIATE_LINKS: Record<string, string> = {
   wise: 'https://wise.com/invite/ihpc/rogeriom', 
@@ -36,12 +37,17 @@ export const GET: APIRoute = async ({ params, url, request }) => {
     return new Response('Affiliate not found', { status: 404 });
   }
 
-  // Log to Airtable
-  try {
-    await fetch(`https://api.airtable.com/v0/${process.meta.env.AIRTABLE_BASE_ID}/Clicks`, {
+// Log to Airtable - get env vars from Astro's import.meta.env
+try {
+  console.log('Using BASE_ID:', AIRTABLE_BASE_ID ? 'exists' : 'undefined');
+  
+  if (!AIRTABLE_BASE_ID || !AIRTABLE_API_KEY) {
+    console.log('Airtable credentials missing');
+  } else {
+    await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Clicks`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.meta.env.AIRTABLE_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -65,9 +71,10 @@ export const GET: APIRoute = async ({ params, url, request }) => {
         ],
       }),
     });
-  } catch (error) {
-    console.log('Airtable log failed (non-critical):', error);
   }
+} catch (error) {
+  console.log('Airtable log failed:', error);
+}
 
   // Redirect
   return new Response(null, {
